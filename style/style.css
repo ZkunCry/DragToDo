@@ -3,3 +3,78 @@
   margin: 0 auto;
   /*Насчет padding пока хз будет ли*/
 }
+.wrapper {
+  max-width: 1200px;
+  min-height: 100%;
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.todo {
+  max-width: 400px;
+  display: flex;
+  gap: 9px;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  position: relative;
+  height: 100%;
+}
+.todo__inner {
+  max-width: 400px;
+  width: 700px;
+}
+.todo__text {
+  width: 100%;
+  font-size: 18px;
+  background-color: #fff;
+}
+.todo-input__input {
+  width: 100%;
+}
+.todo__input {
+  gap: 10px;
+  display: flex;
+  width: 100%;
+  padding: 0.5rem 0.5rem 0.5rem 0.5rem;
+  align-items: center;
+  border: 1px solid #a8a8a8;
+  border-radius: 0.25rem;
+}
+.todo-input__add {
+  cursor: pointer;
+  display: flex;
+  justify-content: flex-end;
+  position: relative;
+}
+.todo__add {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 26px;
+  height: 26px;
+  background-color: #8bc34a;
+}
+.todo__add span {
+  position: absolute;
+  width: 75%;
+  height: 3px;
+  background-color: #fff;
+}
+.todo__add span:first-of-type {
+  transform: rotate(90deg);
+}
+.todo-menu {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  justify-content: center;
+  width: 100%;
+}
+.todo-menu__item {
+  padding: 1rem;
+  background-color: #8bc34a;
+  border-radius: 0.25rem;
+}
