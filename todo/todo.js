@@ -1,3 +1,5 @@
+import { Task } from "./task.js";
+
 export class TodoList {
   constructor() {
     this.todo = document.querySelector(".todo");
@@ -9,8 +11,28 @@ export class TodoList {
     // this.task.appendChild(this.text);
     // menu.appendChild(this.task);
   }
+  clicked(event) {
+    const input = document.querySelector(".todo__text");
+    const { type } = event.target.dataset;
+    switch (type) {
+      case "addButton":
+        if (input.value) {
+          const currentTask = new Task(input.value);
+          this.addTask(currentTask);
+          input.value = "";
+        }
+        break;
+      case "deleteButton":
+        console.log(event.target);
+        this.deleteTask(event.target);
+        break;
+    }
+  }
   #render() {
+    this.clicked = this.clicked.bind(this);
+    this.todo.addEventListener("click", this.clicked);
     this.menu = this.#createList();
+
     this.todo.append(this.menu);
   }
   #createList() {
@@ -18,17 +40,19 @@ export class TodoList {
     list.classList.add("todo-menu");
     return list;
   }
+
   addTask(task) {
     this.menu.appendChild(task.currentTaskElement);
     task.id = this.taskList.length + 1;
     this.taskList.push(task);
     console.log(task);
   }
-  hasItem(id) {
-    return this.taskList.find((el) => el.id === id);
+  hasItem(currentElement) {
+    return this.taskList.find((el) => el === currentElement);
   }
-  deleteTask(id) {
-    const deleteItem = this.hasItem(id);
+  deleteTask(task) {
+    const deleteItem = this.hasItem(task);
+    console.log(deleteItem);
     this.taskList = this.taskList.filter((value) => value !== deleteItem);
     this.menu.removeChild(deleteItem.currentTaskElement);
   }

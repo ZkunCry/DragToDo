@@ -55,9 +55,10 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 26px;
-  height: 26px;
+  width: 30px;
+  height: 30px;
   background-color: #8bc34a;
+  border-radius: 5px;
 }
 .todo__add span {
   position: absolute;
@@ -67,6 +68,9 @@
 }
 .todo__add span:first-of-type {
   transform: rotate(90deg);
+}
+.todo__add.disabled {
+  opacity: 0.7;
 }
 .todo-menu {
   display: flex;

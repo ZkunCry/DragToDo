@@ -14,6 +14,7 @@ export class Task {
         <div class="todo-menu-item__entries">
           <button
             class="todo-menu-item-entries__delete todo-menu-item__entry"
+            data-type="deleteButton"
           ></button>
           <button
             class="todo-menu-item-entries__complete todo-menu-item__entry"
