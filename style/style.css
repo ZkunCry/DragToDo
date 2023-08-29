@@ -79,4 +79,28 @@
   padding: 1rem;
   background-color: #8bc34a;
   border-radius: 0.25rem;
+  width: 100%;
+}
+
+.todo-menu-item__entries{
+  display: flex;
+  width: 20%;
+}
+
+.todo-item__wrap{
+  display: flex;
+}
+
+.todo-menu-item__entry{
+  margin: 3px;
+  border: 2px solid #888888;
+  border-radius: 0.25rem;
+}
+
+.todo-menu-item-entries__delete{
+  background-color: #ff9999;
+}
+
+.todo-menu-item-entries__complete{
+  background-color: #99ff99;
 }

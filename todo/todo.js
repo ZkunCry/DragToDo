@@ -9,4 +9,7 @@ class Task{
         this.task.appendChild(this.text)
         menu.appendChild(this.task)
     }
+    createTaskMenu(){
+        
+    }
 }
