@@ -1,11 +1,8 @@
-let textInput = document.getElementsByClassName("todo__text")[0]
-
-let tasks = new Array();
-
-function addItem(){
-    if(textInput.value !== ""){
-        console.log(textInput.value)
-        tasks.push(new Task(textInput.value))
-        textInput.value = ""
-    }
-}
+import { Task } from "./todo/task.js";
+import { TodoList } from "./todo/todo.js";
+const todoList = new TodoList();
+todoList.addTask(new Task("fdfdsfdssd"));
+todoList.deleteTask(1);
+todoList.addTask(new Task("fdfdsfdssde"));
+todoList.addTask(new Task("fdfdsfds423sd"));
+todoList.deleteTask(1);
