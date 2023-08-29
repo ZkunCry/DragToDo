@@ -4,12 +4,14 @@
   /*Насчет padding пока хз будет ли*/
 }
 .wrapper {
+  /*заменил align-items: center на padding потому что инпут прижимается к верху если много задач добавлять
+    + нужно не прямо по центру держать инпут*/
+  padding-top: 100px;
   max-width: 1200px;
   min-height: 100%;
   margin: 0 auto;
   display: flex;
   justify-content: center;
-  align-items: center;
 }
 .todo {
   max-width: 400px;
