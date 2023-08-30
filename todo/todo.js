@@ -5,6 +5,15 @@ export class TodoList {
     this.todo = document.querySelector(".todo");
     this.taskList = [];
     this.#render();
+
+    const input = document.querySelector(".todo__text");
+    input.addEventListener("keypress", function(event) {
+      if (event.key === "Enter" && input.value){
+        this.addTask(new Task(input.value, this.taskList.length));
+        input.value = "";
+      }
+    });
+
     // this.order = tasks.length;
     // this.task = document.createElement("li");
     // this.task.className = "todo-menu__item";
@@ -30,6 +39,12 @@ export class TodoList {
         break;
       case "completeButton":
         this.completeTask(event.target);
+        break;
+      case "taskText":
+        console.log(event.target.tagName)
+        if(event.target.tagName != "INPUT"){
+          this.editTask(event.target);
+        }
         break;
 
     }
@@ -93,5 +108,21 @@ export class TodoList {
         this.completedList.remove();
       }
     }
+  }
+  editTask(task) {
+    const input = document.createElement("input")
+    input.type = "text";
+    input.value = task.innerHTML;
+    input.classList.add("todo-menu__item");
+    task.style.display = "none";
+    task.parentNode.prepend(input);
+    input.addEventListener("keypress", function(event) {
+      if (event.key === "Enter"){
+        event.preventDefault();
+        task.innerHTML = input.value;
+        task.style.display = "inline";
+        input.remove();
+      }
+    });
   }
 }
