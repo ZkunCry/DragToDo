@@ -10,7 +10,7 @@ export class Task {
     this.currentTaskElement = tempDiv.firstElementChild;
   }
   #toHTML() {
-    return `<div class="todo-item__wrap" id=${this.id}>
+    return `<div class="todo-item__wrap" data-id=${this.id}>
     <li class="todo-menu__item">${this.text}</li>
         <div class="todo-menu-item__entries">
           <button

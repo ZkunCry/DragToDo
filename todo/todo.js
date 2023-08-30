@@ -28,6 +28,10 @@ export class TodoList {
       case "deleteButton":
         this.deleteTask(event.target);
         break;
+      case "completeButton":
+        this.completeTask(event.target);
+        break;
+
     }
   }
   #render() {
@@ -43,6 +47,12 @@ export class TodoList {
     return list;
   }
 
+  #createCompletedList(){
+    const list = document.createElement("ul");
+    list.classList.add("todo-completed");
+    return list;
+  }
+
   addTask(task) {
     this.menu.appendChild(task.currentTaskElement);
     task.id = this.taskList.length + 1;
@@ -52,12 +62,36 @@ export class TodoList {
   hasItem(currentElement) {
     return this.taskList.find((el) => el === currentElement);
   }
+
+  getById(id){
+    return this.taskList
+  }
+
   deleteTask(task) {
     const deleteItem = task.parentNode.parentNode;
-    deleteItem.remove()
-    this.taskList = this.taskList.filter((value) => value.id !== +deleteItem.id);
+    deleteItem.remove();
+    this.taskList = this.taskList.filter((value) => value.id !== +deleteItem.dataset.id);
   }
   completeTask(task) {
+    const completeItem = task.parentNode.parentNode;
+    const text = completeItem.children[0];
+    if(!text.classList.contains("completed")){
+      text.classList.add("completed")
 
+      if(this.completedList === undefined){
+        this.completedList = this.#createCompletedList();
+        this.todo.append(this.completedList);
+      }
+
+      this.completedList.appendChild(completeItem);
+    }
+    else{
+      text.classList.remove("completed")
+      this.menu.appendChild(completeItem);
+
+      if(this.completedList.children.length === 0){
+        this.completedList.remove();
+      }
+    }
   }
 }

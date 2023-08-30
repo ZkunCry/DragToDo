@@ -78,7 +78,18 @@
   gap: 8px;
   justify-content: center;
   width: 100%;
+  padding-bottom: 10px;
 }
+.todo-completed{
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  justify-content: center;
+  width: 100%;
+  padding-top: 10px;
+  border-top: #bbbbbb solid 1px;
+}
+
 .todo-menu__item {
   padding: 1rem;
   background-color: #8bc34a;
@@ -116,4 +127,9 @@
   height: 30px;
   border: none;
   background-size: cover;
+}
+
+.completed {
+  text-decoration: line-through;
+  background-color: #aaaaaa;
 }
