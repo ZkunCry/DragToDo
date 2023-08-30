@@ -7,7 +7,7 @@ export class TodoList {
     this.#render();
 
     const input = document.querySelector(".todo__text");
-    input.addEventListener("keypress", function(event) {
+    input.addEventListener("keyup", function(event) {
       if (event.key === "Enter" && input.value){
         this.addTask(new Task(input.value, this.taskList.length));
         input.value = "";
@@ -116,7 +116,7 @@ export class TodoList {
     input.classList.add("todo-menu__item");
     task.style.display = "none";
     task.parentNode.prepend(input);
-    input.addEventListener("keypress", function(event) {
+    input.addEventListener("keyup", function(event) {
       if (event.key === "Enter"){
         event.preventDefault();
         task.innerHTML = input.value;
