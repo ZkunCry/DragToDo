@@ -60,6 +60,10 @@
   background-color: #8bc34a;
   border-radius: 5px;
 }
+.todo__add::before{
+  background-color: #fff;
+}
+
 .todo__add span {
   position: absolute;
   width: 75%;
@@ -100,6 +104,7 @@
 .todo-menu-item__entries {
   display: flex;
   width: 20%;
+  transition: width 0.3s;
 }
 
 .todo-item__wrap {
@@ -132,4 +137,8 @@
 .completed {
   text-decoration: line-through;
   background-color: #aaaaaa;
+}
+
+.entries-hide {
+  width: 0;
 }

@@ -8,11 +8,21 @@ export class Task {
     const tempDiv = document.createElement("div");
     tempDiv.innerHTML = this.#toHTML();
     this.currentTaskElement = tempDiv.firstElementChild;
+    this.currentTaskElement.addEventListener(
+      "mouseover",
+      (event) => {
+        this.currentTaskElement.children[1].classList.remove("entries-hide")
+      });
+    this.currentTaskElement.addEventListener(
+      "mouseout",
+      (event) => {
+        this.currentTaskElement.children[1].classList.add("entries-hide")
+      });
   }
   #toHTML() {
-    return `<div class="todo-item__wrap" data-id=${this.id}>
+    return `<div class="todo-item__wrap " data-id=${this.id}>
     <li class="todo-menu__item">${this.text}</li>
-        <div class="todo-menu-item__entries">
+        <div class="todo-menu-item__entries entries-hide">
           <button
             class="todo-menu-item-entries__delete todo-menu-item__entry"
             data-type="deleteButton"
