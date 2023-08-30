@@ -5,14 +5,9 @@ export class TodoList {
     this.todo = document.querySelector(".todo");
     this.taskList = [];
     this.#render();
-
-    const input = document.querySelector(".todo__text");
-    input.addEventListener("keyup", function(event) {
-      if (event.key === "Enter" && input.value){
-        this.addTask(new Task(input.value, this.taskList.length));
-        input.value = "";
-      }
-    });
+    this.input = document.querySelector(".todo__text");
+    this.checkedTypeKeyboard = this.checkedTypeKeyboard.bind(this);
+    this.input.addEventListener("keyup", this.checkedTypeKeyboard);
 
     // this.order = tasks.length;
     // this.task = document.createElement("li");
@@ -20,18 +15,34 @@ export class TodoList {
     // this.task.appendChild(this.text);
     // menu.appendChild(this.task);
   }
+  checkedTypeKeyboard(event) {
+    const {
+      value,
+      value: { length },
+    } = this.input;
+    const todoAdd = document.querySelector(".todo__add");
+    if (length > 0 && value.trim() !== "") {
+      todoAdd.classList.remove("disabled");
+      if (event.key === "Enter" && value) {
+        this.addTask(new Task(value, this.taskList.length));
+        this.input.value = "";
+      }
+      return;
+    }
+    todoAdd.classList.add("disabled");
+  }
   clicked(event) {
-    const input = document.querySelector(".todo__text");
+    console.log(event.target.dataset.type);
     let { type } = event.target.dataset;
-    if(type === undefined){
-       type = event.target.parentNode.dataset.type
+    if (type === undefined) {
+      type = event.target.parentNode.dataset.type;
     }
     switch (type) {
       case "addButton":
-        if (input.value) {
-          const currentTask = new Task(input.value, this.taskList.length);
+        if (this.input.value) {
+          const currentTask = new Task(this.input.value, this.taskList.length);
           this.addTask(currentTask);
-          input.value = "";
+          this.input.value = "";
         }
         break;
       case "deleteButton":
@@ -41,12 +52,11 @@ export class TodoList {
         this.completeTask(event.target);
         break;
       case "taskText":
-        console.log(event.target.tagName)
-        if(event.target.tagName != "INPUT"){
+        console.log(event.target.tagName);
+        if (event.target.tagName !== "INPUT") {
           this.editTask(event.target);
         }
         break;
-
     }
   }
   #render() {
@@ -62,7 +72,7 @@ export class TodoList {
     return list;
   }
 
-  #createCompletedList(){
+  #createCompletedList() {
     const list = document.createElement("ul");
     list.classList.add("todo-completed");
     return list;
@@ -78,51 +88,81 @@ export class TodoList {
     return this.taskList.find((el) => el === currentElement);
   }
 
-  getById(id){
-    return this.taskList
+  getById(id) {
+    return this.taskList;
   }
 
   deleteTask(task) {
     const deleteItem = task.parentNode.parentNode;
     deleteItem.remove();
-    this.taskList = this.taskList.filter((value) => value.id !== +deleteItem.dataset.id);
+    this.taskList = this.taskList.filter(
+      (value) => value.id !== +deleteItem.dataset.id
+    );
   }
   completeTask(task) {
     const completeItem = task.parentNode.parentNode;
     const text = completeItem.children[0];
-    if(!text.classList.contains("completed")){
-      text.classList.add("completed")
+    if (!text.classList.contains("completed")) {
+      text.classList.add("completed");
 
-      if(this.completedList === undefined){
+      if (this.completedList === undefined) {
         this.completedList = this.#createCompletedList();
         this.todo.append(this.completedList);
       }
 
       this.completedList.appendChild(completeItem);
-    }
-    else{
-      text.classList.remove("completed")
+    } else {
+      text.classList.remove("completed");
       this.menu.appendChild(completeItem);
 
-      if(this.completedList.children.length === 0){
+      if (this.completedList.children.length === 0) {
         this.completedList.remove();
       }
     }
   }
-  editTask(task) {
-    const input = document.createElement("input")
+  #createInput(task) {
+    const input = document.createElement("input");
     input.type = "text";
-    input.value = task.innerHTML;
-    input.classList.add("todo-menu__item");
-    task.style.display = "none";
-    task.parentNode.prepend(input);
-    input.addEventListener("keyup", function(event) {
-      if (event.key === "Enter"){
+    input.value = task.innerText;
+    input.classList.add("input-edit-style");
+    return input;
+  }
+  delEditAbil(event) {
+    if (!event.target.closest(".todo-menu")) {
+      console.log(this.children[0].value);
+      this.innerText = this.children[0].value;
+
+      this.removeChild(this.children[0]);
+      document.removeEventListener("click", this.delEditAbil);
+    }
+  }
+
+  editTask(task) {
+    const input = this.#createInput(task);
+    console.log(task.textContent);
+    this.delEditAbil = this.delEditAbil.bind(task);
+    // document.addEventListener('click',this.#delEditAbil)
+    // task.style.display = "none";
+    // task.parentNode.prepend(input);
+    task.innerHTML = "";
+    task.appendChild(input);
+    this.delEditAbil = this.delEditAbil.bind(task);
+    document.addEventListener("keyup", (event) => {
+      if (event.key === "Enter") {
         event.preventDefault();
-        task.innerHTML = input.value;
-        task.style.display = "inline";
+        task.textContent = input.value;
         input.remove();
       }
     });
+    document.addEventListener("click", this.delEditAbil);
+
+    // input.addEventListener("keyup", function (event) {
+    //   if (event.key === "Enter") {
+    //     event.preventDefault();
+    //     task.innerHTML = input.value;
+    //     task.style.display = "inline";
+    //     input.remove();
+    //   }
+    // });
   }
 }
