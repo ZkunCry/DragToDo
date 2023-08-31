@@ -32,7 +32,6 @@ export class TodoList {
     todoAdd.classList.add("disabled");
   }
   clicked(event) {
-    console.log(event.target.dataset.type);
     let { type } = event.target.dataset;
     if (type === undefined) {
       type = event.target.parentNode.dataset.type;
@@ -52,7 +51,6 @@ export class TodoList {
         this.completeTask(event.target);
         break;
       case "taskText":
-        console.log(event.target.tagName);
         if (event.target.tagName !== "INPUT") {
           this.editTask(event.target);
         }
@@ -124,46 +122,49 @@ export class TodoList {
     const input = document.createElement("input");
     input.type = "text";
     input.value = task.innerText;
+
     input.classList.add("input-edit-style");
     return input;
   }
   delEditAbil(event) {
-    if (!event.target.closest(".todo-menu")) {
-      console.log(this.children[0].value);
-      this.innerText = this.children[0].value;
-
-      this.removeChild(this.children[0]);
+    if (!event.target.closest(".todo-menu__item")) {
+      this.deleteClass();
       document.removeEventListener("click", this.delEditAbil);
     }
   }
+  deleteClass() {
+    const temparr = [...this.menu.childNodes];
+    temparr.forEach((element) => {
+      const listItem = element.children[0];
+      const length = listItem.children.length;
+      let text;
 
-  editTask(task) {
-    const input = this.#createInput(task);
-    console.log(task.textContent);
-    this.delEditAbil = this.delEditAbil.bind(task);
-    // document.addEventListener('click',this.#delEditAbil)
-    // task.style.display = "none";
-    // task.parentNode.prepend(input);
-    task.innerHTML = "";
-    task.appendChild(input);
-    this.delEditAbil = this.delEditAbil.bind(task);
-    document.addEventListener("keyup", (event) => {
-      if (event.key === "Enter") {
-        event.preventDefault();
-        task.textContent = input.value;
-        input.remove();
+      if (length > 0) {
+        text = listItem.children[0].value;
+        listItem.removeChild(listItem.children[0]);
+        listItem.innerText = text;
+        document.removeEventListener("click", this.delEditAbil);
+        return;
       }
     });
-    document.addEventListener("click", this.delEditAbil);
-
-    // input.addEventListener("keyup", function (event) {
-    //   if (event.key === "Enter") {
-    //     event.preventDefault();
-    //     task.innerHTML = input.value;
-    //     task.style.display = "inline";
-    //     input.remove();
-    //   }
-    // });
   }
-
+  enterTask(event) {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      event.target.parentNode.innerText = event.target.value;
+      event.target.remove();
+    }
+    document.removeEventListener("keyup", this.enterTask);
+    document.removeEventListener("click", this.delEditAbil);
+  }
+  editTask(task) {
+    this.deleteClass();
+    const input = this.#createInput(task);
+    this.delEditAbil = this.delEditAbil.bind(this);
+    const deleteText = task.childNodes[0];
+    task.removeChild(deleteText);
+    task.appendChild(input);
+    document.addEventListener("keyup", this.enterTask);
+    document.addEventListener("click", this.delEditAbil);
+  }
 }

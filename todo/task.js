@@ -70,6 +70,14 @@ export class Task {
     }
   }
 
+  completeTask(event) {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      this.innerText = event.target.value;
+      event.target.remove();
+      document.removeEventListener("keyup", this.completeTask);
+    }
+  }
   #toHTML() {
     return `<div class="todo-item__wrap " data-id=${this.id}>
     <div class="todo-drag">⣿</div>
