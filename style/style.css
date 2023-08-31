@@ -3,6 +3,9 @@
   margin: 0 auto;
   /*Насчет padding пока хз будет ли*/
 }
+:root {
+  --paddingTask: 1rem;
+}
 .wrapper {
   /*заменил align-items: center на padding потому что инпут прижимается к верху если много задач добавлять
     + нужно не прямо по центру держать инпут*/
@@ -99,7 +102,6 @@
 
 .todo-menu__item {
   padding: 1rem;
-  background-color: #8bc34a;
   border-radius: 0.25rem;
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
@@ -113,9 +115,12 @@
 }
 
 .todo-item__wrap {
+  width: 100%;
   display: flex;
   align-items: center;
   gap: 2px;
+  background-color: #8bc34a;
+  border-radius: 10px;
 }
 
 .todo-menu-item__entry {
@@ -129,6 +134,7 @@
   height: 30px;
   border: none;
   background-size: cover;
+  background-color: transparent;
 }
 
 .todo-menu-item-entries__complete {
@@ -137,11 +143,24 @@
   height: 30px;
   border: none;
   background-size: cover;
+  background-color: transparent;
 }
 
 .completed {
-  text-decoration: line-through;
+  position: relative;
+
   background-color: #aaaaaa;
+}
+.completed::after {
+  content: "";
+  position: absolute;
+  background-color: #524f4f;
+  top: 50%;
+  left: 50%;
+  width: 80%;
+  max-width: 73%;
+  height: 2px;
+  transform: translateX(-50%);
 }
 
 .entries-hide {
@@ -173,14 +192,13 @@
   z-index: -1;
 }
 
-.todo-drag{
+.todo-drag {
+  cursor: grab;
   display: flex;
   padding: 0.85rem;
-  background-color: #8bc34a;
   border-radius: 0.25rem;
   font-size: 18px;
   color: #4c6b28;
-  margin-right: -3px;
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
 }

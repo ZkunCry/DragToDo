@@ -99,10 +99,12 @@ export class TodoList {
   }
   completeTask(task) {
     const completeItem = task.parentNode.parentNode;
-    const text = completeItem.children[0];
-    if (!text.classList.contains("completed")) {
-      text.classList.add("completed");
-
+    const text = [...completeItem.children].find((element) =>
+      element.classList.contains("todo-menu__item")
+    );
+    console.log(text);
+    if (!completeItem.classList.contains("completed")) {
+      completeItem.classList.add("completed");
       if (this.completedList === undefined) {
         this.completedList = this.#createCompletedList();
         this.todo.append(this.completedList);
@@ -135,10 +137,12 @@ export class TodoList {
   deleteClass() {
     const temparr = [...this.menu.childNodes];
     temparr.forEach((element) => {
-      const listItem = element.children[0];
+      const listItem = [...element.children].find((element) =>
+        element.classList.contains("todo-menu__item")
+      );
+      console.log(listItem);
       const length = listItem.children.length;
       let text;
-
       if (length > 0) {
         text = listItem.children[0].value;
         listItem.removeChild(listItem.children[0]);
