@@ -8,6 +8,7 @@ export class Task {
     const tempDiv = document.createElement("div");
     tempDiv.innerHTML = this.#toHTML();
     this.currentTaskElement = tempDiv.firstElementChild;
+    console.log(this.currentTaskElement)
     let entries = this.currentTaskElement.querySelector(
       ".todo-menu-item__entries"
     );
@@ -26,6 +27,7 @@ export class Task {
       y = 0,
       xold = 0,
       yold = 0;
+    let margined;
     elem.onmousedown = dragMouse;
     function dragMouse(e) {
       e.preventDefault();
@@ -44,12 +46,27 @@ export class Task {
     }
     function dragElement(e) {
       e.preventDefault();
+      const movingRect = moving.getBoundingClientRect();
+      const items = document.getElementsByClassName("todo-item__wrap");
       xold = x - e.clientX;
       yold = y - e.clientY;
       x = e.clientX;
       y = e.clientY;
       moving.style.top = moving.offsetTop - yold + "px";
       moving.style.left = moving.offsetLeft - xold + "px";
+      for (let i = 0; i < items.length; i++) {
+        if (items[i] != moving) {
+          const rect = items[i].getBoundingClientRect();
+          if ((movingRect.top + 40) >= rect.top && (movingRect.top + 40) < rect.bottom) {
+            items[i].style.marginTop = "50px";
+            margined = i;
+          }
+          else if(margined != i){
+            items[i].style.marginTop = "";
+          }
+        }
+      }
+
     }
     function dragClose() {
       const items = document.getElementsByClassName("todo-item__wrap");
@@ -58,6 +75,7 @@ export class Task {
       moving.style.position = "";
       moving.style.top = "";
       moving.style.left = "";
+      margined = -1;
       document.onmouseup = null;
       document.onmousemove = null;
 
@@ -73,9 +91,9 @@ export class Task {
 
       for (let i = 0; i < items.length; i++) {
         if (items[i] != moving) {
+          items[i].style.marginTop = "";
           const rect = items[i].getBoundingClientRect();
           if (movingRect.top >= rect.top) {
-            console.log(movingRect.top, rect.top);
             moving.parentNode.insertBefore(moving, items[i].nextSibling);
           }
         }

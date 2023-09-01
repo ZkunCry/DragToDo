@@ -105,6 +105,7 @@ export class TodoList {
     console.log(text);
     if (!completeItem.classList.contains("completed")) {
       completeItem.classList.add("completed");
+      console.log(this.completedList)
       if (this.completedList === undefined) {
         this.completedList = this.#createCompletedList();
         this.todo.append(this.completedList);
@@ -112,11 +113,12 @@ export class TodoList {
 
       this.completedList.appendChild(completeItem);
     } else {
-      text.classList.remove("completed");
+      completeItem.classList.remove("completed");
       this.menu.appendChild(completeItem);
 
       if (this.completedList.children.length === 0) {
         this.completedList.remove();
+        delete this.completedList;
       }
     }
   }
