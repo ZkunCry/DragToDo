@@ -54,20 +54,32 @@ export class Task {
     function dragClose() {
       const items = document.getElementsByClassName("todo-item__wrap");
       const movingRect = moving.getBoundingClientRect();
-      for (let i = 0; i < items.length; i++) {
-        if (items[i] != moving) {
-          const rect = items[i].getBoundingClientRect();
-          if (movingRect.top >= rect.top) {
-            console.log(movingRect.top, rect.top);
-            moving.parentNode.insertBefore(moving, items[i]);
-          }
-        }
-      }
+
       moving.style.position = "";
       moving.style.top = "";
       moving.style.left = "";
       document.onmouseup = null;
       document.onmousemove = null;
+
+      if(items[0].getBoundingClientRect().top > movingRect.top){
+        moving.parentNode.insertBefore(moving, items[0]);
+        return;
+      }
+      else if(items[items.length - 1].getBoundingClientRect().bottom < movingRect.top){
+        console.log("1234")
+        moving.parentNode.appendChild(moving);
+        return;
+      }
+
+      for (let i = 0; i < items.length; i++) {
+        if (items[i] != moving) {
+          const rect = items[i].getBoundingClientRect();
+          if (movingRect.top >= rect.top) {
+            console.log(movingRect.top, rect.top);
+            moving.parentNode.insertBefore(moving, items[i].nextSibling);
+          }
+        }
+      }
     }
   }
 
