@@ -51,7 +51,10 @@ export class TodoList {
         this.completeTask(event.target);
         break;
       case "taskText":
-        if (event.target.tagName !== "INPUT") {
+        if (
+          event.target.tagName !== "INPUT" &&
+          !event.target.closest(".todo-completed")
+        ) {
           this.editTask(event.target);
         }
         break;
@@ -80,7 +83,6 @@ export class TodoList {
     this.menu.appendChild(task.currentTaskElement);
     task.id = this.taskList.length + 1;
     this.taskList.push(task);
-    console.log(task);
   }
   hasItem(currentElement) {
     return this.taskList.find((el) => el === currentElement);
@@ -102,10 +104,17 @@ export class TodoList {
     const text = [...completeItem.children].find((element) =>
       element.classList.contains("todo-menu__item")
     );
-    console.log(text);
-    if (!completeItem.classList.contains("completed")) {
-      completeItem.classList.add("completed");
-      console.log(this.completedList)
+    let icon = [...completeItem.children].find((element) =>
+      element.classList.contains("todo-menu-item__entries")
+    );
+    icon = [...icon.children].find((el) =>
+      el.classList.contains("todo-menu-item-entries__complete")
+    );
+
+    if (!text.classList.contains("completed")) {
+      text.classList.add("completed");
+      completeItem.style.backgroundColor = "#aaaaaa";
+      icon.style.backgroundImage = "url(/img/backArrow.png)";
       if (this.completedList === undefined) {
         this.completedList = this.#createCompletedList();
         this.todo.append(this.completedList);
@@ -113,7 +122,9 @@ export class TodoList {
 
       this.completedList.appendChild(completeItem);
     } else {
-      completeItem.classList.remove("completed");
+      icon.style.backgroundImage = "url(/img/complerte2.png)";
+      completeItem.style.backgroundColor = "#8bc34a";
+      text.classList.remove("completed");
       this.menu.appendChild(completeItem);
 
       if (this.completedList.children.length === 0) {
