@@ -90,6 +90,7 @@ export class Task {
       }
 
       for (let i = 0; i < items.length; i++) {
+        items[i].style.marginTop = "";
         if (items[i] != moving) {
           items[i].style.marginTop = "";
           const rect = items[i].getBoundingClientRect();
