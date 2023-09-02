@@ -25,10 +25,12 @@
   flex-direction: column;
   position: relative;
   height: 100%;
+  margin: 0 10px;
 }
 .todo__inner {
   max-width: 400px;
   width: 700px;
+  position: relative;
 }
 .todo__text {
   width: 100%;
@@ -210,4 +212,11 @@
   color: #4c6b28;
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
+}
+
+.new-category {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  right: -100px;
 }

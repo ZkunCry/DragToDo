@@ -46,8 +46,9 @@ export class Task {
     }
     function dragElement(e) {
       e.preventDefault();
+      const context = moving.parentNode
       const movingRect = moving.getBoundingClientRect();
-      const items = document.getElementsByClassName("todo-item__wrap");
+      const items = context.getElementsByClassName("todo-item__wrap");
       xold = x - e.clientX;
       yold = y - e.clientY;
       x = e.clientX;
@@ -69,7 +70,8 @@ export class Task {
 
     }
     function dragClose() {
-      const items = document.getElementsByClassName("todo-item__wrap");
+      const context = moving.parentNode
+      const items = context.getElementsByClassName("todo-item__wrap");
       const movingRect = moving.getBoundingClientRect();
 
       moving.style.position = "";
@@ -80,11 +82,12 @@ export class Task {
       document.onmousemove = null;
 
       if(items[0].getBoundingClientRect().top > movingRect.top){
+        items[0].style.marginTop = "";
         moving.parentNode.insertBefore(moving, items[0]);
         return;
       }
       else if(items[items.length - 1].getBoundingClientRect().bottom < movingRect.top){
-        console.log("1234")
+        items[items.length - 1].style.marginTop = "";
         moving.parentNode.appendChild(moving);
         return;
       }

@@ -2,10 +2,10 @@ import { Task } from "./task.js";
 
 export class TodoList {
   constructor() {
-    this.todo = document.querySelector(".todo");
+    this.todo;
     this.taskList = [];
     this.#render();
-    this.input = document.querySelector(".todo__text");
+    this.input = this.todo.querySelector(".todo__text");
     this.checkedTypeKeyboard = this.checkedTypeKeyboard.bind(this);
     this.input.addEventListener("keyup", this.checkedTypeKeyboard);
 
@@ -33,7 +33,7 @@ export class TodoList {
   }
   clicked(event) {
     let { type } = event.target.dataset;
-    if (type === undefined) {
+    if (type) {
       type = event.target.parentNode.dataset.type;
     }
     switch (type) {
@@ -61,11 +61,26 @@ export class TodoList {
     }
   }
   #render() {
+    const todoHTML = `
+        <div class="todo__inner">
+          <div class="todo__input">
+            <div class="todo-input__input">
+              <input type="text" class="todo__text" data-type="input" />
+            </div>
+            <div class="todo__add disabled" data-type="addButton">
+            </div>
+          </div>
+          <button class="new-category">Add category</button>
+        </div>`
+    this.todo = document.createElement("div");
+    this.todo.classList.add("todo");
+    this.todo.innerHTML = todoHTML;
     this.clicked = this.clicked.bind(this);
     this.todo.addEventListener("click", this.clicked);
     this.menu = this.#createList();
 
     this.todo.append(this.menu);
+    document.querySelector(".wrapper").append(this.todo);
   }
   #createList() {
     const list = document.createElement("ul");
@@ -110,6 +125,8 @@ export class TodoList {
     icon = [...icon.children].find((el) =>
       el.classList.contains("todo-menu-item-entries__complete")
     );
+
+    this.deleteClass();
 
     if (!text.classList.contains("completed")) {
       text.classList.add("completed");
